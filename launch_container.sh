@@ -30,7 +30,7 @@ fi
 chmod a+r $XAUTH
 
 DOCKER_OPT=""
-DOCKER_NAME="bionic_ws_docker"
+DOCKER_NAME="bionic_cuda_docker"
 DOCKER_WORK_DIR="/home/${USER}"
 
 ## For XWindow
@@ -51,7 +51,7 @@ DOCKER_OPT="${DOCKER_OPT} --privileged -it "
 
 ## Allow X11 Connection
 xhost +local:`hostname`-Docker
-CONTAINER_ID=$(docker ps -a -f name=bionic_ws_docker --format "{{.ID}}")
+CONTAINER_ID=$(docker ps -a -f name=bionic_cuda_docker --format "{{.ID}}")
 if [ ! "$CONTAINER_ID" ]; then
 	docker run ${DOCKER_OPT} \
 		--volume=/dev:/dev:rw \
@@ -65,8 +65,8 @@ else
 	docker start $CONTAINER_ID
 	docker attach $CONTAINER_ID
 fi
-docker commit bionic_ws_docker bionic_ws:latest
-CONTAINER_ID=$(docker ps -a -f name=bionic_ws_docker --format "{{.ID}}")
+docker commit bionic_cuda_docker bionic_ws:latest
+CONTAINER_ID=$(docker ps -a -f name=bionic_cuda_docker --format "{{.ID}}")
 docker rm $CONTAINER_ID
 xhost -local:`hostname`-Docker
 
